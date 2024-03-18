@@ -27,5 +27,5 @@ learning model that's trained to give users book recommendations.
     - Provides personalized book recommendations for users based on analitics
 
 ## Database
-
+![image](./database.png)
 ## Technologies
