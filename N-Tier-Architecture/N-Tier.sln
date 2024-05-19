@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Application.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Api.IntegrationTests", "tests\N-Tier.Api.IntegrationTests\N-Tier.Api.IntegrationTests.csproj", "{FD31F369-27D3-48B3-9FF7-F4A357F73B1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N-Tier.Frontend", "src\N-Tier.Frontend\N-Tier.Frontend.csproj", "{E4A1553C-6BD8-4F39-80E9-19B667442B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Tier.Frontend", "src\N-Tier.Frontend\N-Tier.Frontend.csproj", "{E4A1553C-6BD8-4F39-80E9-19B667442B59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
