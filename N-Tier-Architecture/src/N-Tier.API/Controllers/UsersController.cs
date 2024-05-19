@@ -1,18 +1,29 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.User;
 using N_Tier.Application.Services;
+using N_Tier.Core.Entities.Identity;
 
 namespace N_Tier.API.Controllers;
 
 public class UsersController : ApiController
 {
     private readonly IUserService _userService;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public UsersController(IUserService userService)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public UsersController(IUserService userService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
+        userManager.Options.SignIn.RequireConfirmedAccount = false;
+        userManager.Options.SignIn.RequireConfirmedPhoneNumber = false;
+        userManager.Options.SignIn.RequireConfirmedEmail = false;
+
         _userService = userService;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     [HttpPost]
@@ -22,12 +33,6 @@ public class UsersController : ApiController
         return Ok(ApiResult<CreateUserResponseModel>.Success(await _userService.CreateAsync(createUserModel)));
     }
 
-    [HttpPost("authenticate")]
-    [AllowAnonymous]
-    public async Task<IActionResult> LoginAsync(LoginUserModel loginUserModel)
-    {
-        return Ok(ApiResult<LoginResponseModel>.Success(await _userService.LoginAsync(loginUserModel)));
-    }
 
     [HttpPost("confirmEmail")]
     public async Task<IActionResult> ConfirmEmailAsync(ConfirmEmailModel confirmEmailModel)
@@ -36,10 +41,12 @@ public class UsersController : ApiController
             await _userService.ConfirmEmailAsync(confirmEmailModel)));
     }
 
-    [HttpPut("{id:guid}/changePassword")]
-    public async Task<IActionResult> ChangePassword(Guid id, ChangePasswordModel changePasswordModel)
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginPost(LoginUserModel user)
     {
-        return Ok(ApiResult<BaseResponseModel>.Success(
-            await _userService.ChangePasswordAsync(id, changePasswordModel)));
+        var loggedInUser = await _userService.LoginAsync(user);
+
+        return Ok(ApiResult<LoginResponseModel>.Success(loggedInUser));
+
     }
 }
