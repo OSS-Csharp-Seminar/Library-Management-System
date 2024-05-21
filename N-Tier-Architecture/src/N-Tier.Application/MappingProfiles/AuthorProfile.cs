@@ -9,8 +9,8 @@ namespace N_Tier.Application.MappingProfiles
         public AuthorProfile()
         {
             CreateMap<CreateAuthorModel, Author>();
+            CreateMap<UpdateAuthorModel, Author>();
             CreateMap<Author, AuthorResponseModel>();
-            CreateMap<AuthorResponseModel, Author>();
         }
     }
 }

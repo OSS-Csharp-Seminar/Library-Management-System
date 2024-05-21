@@ -9,8 +9,8 @@ namespace N_Tier.DataAccess.Repositories
 {
     public interface IAuthorRepository : IBaseRepository<Author>
     {
-        IQueryable<Author> GetAll();
+        Task<IEnumerable<Author>> GetAll();
 
-        Author GetById(string id);
+        Task<Author> GetById(Guid id);
     }
 }

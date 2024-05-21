@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace N_Tier.Application.Models.Author
 {
-    public class CreateAuthorModel
+    public class UpdateAuthorModel
     {
         [Required]
         [Display(Name = "Firstname")]
@@ -30,5 +30,5 @@ namespace N_Tier.Application.Models.Author
         public string About { get; set; }
     }
 
-    public class CreateAuthorResponseModel : BaseResponseModel { }
+    public class UpdateAuthorReponseModel : BaseResponseModel { }
 }

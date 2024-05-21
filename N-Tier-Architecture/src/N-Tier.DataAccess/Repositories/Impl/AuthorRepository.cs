@@ -1,4 +1,5 @@
-﻿using N_Tier.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using N_Tier.Core.Entities;
 using N_Tier.DataAccess.Persistence;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,15 @@ namespace N_Tier.DataAccess.Repositories.Impl
     {
         public AuthorRepository(DatabaseContext context) : base(context) { }
 
-        public IQueryable<Author> GetAll()
+        public async Task<IEnumerable<Author>> GetAll()
         {
-            return DbSet
-                .OrderBy(a => a.FirstName)
-                .ThenBy(a => a.LastName)
-                .AsQueryable();
+            return await DbSet
+                .ToListAsync();
         }
 
-        public Author GetById(string id)
+        public async Task<Author> GetById(Guid id)
         {
-            return DbSet.Where(a => a.Id.ToString() == id).FirstOrDefault();
+            return await DbSet.Where(a => a.Id == id).FirstOrDefaultAsync();
         }
     }
 }
