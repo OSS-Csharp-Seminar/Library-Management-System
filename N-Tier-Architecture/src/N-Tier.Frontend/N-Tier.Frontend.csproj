@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Pages\Books\" />
     <Folder Include="Pages\Loans\" />
-    <Folder Include="Pages\Authors\" />
   </ItemGroup>
 
 </Project>

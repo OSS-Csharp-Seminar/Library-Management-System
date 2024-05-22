@@ -40,6 +40,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 builder.Services.AddScoped<ILoanService, LoanService>();
 
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();  
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

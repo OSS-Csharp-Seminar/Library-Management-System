@@ -1,4 +1,5 @@
 ﻿using N_Tier.Application.Models.Author;
+using N_Tier.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace N_Tier.Application.Services
 
         Task<AuthorResponseModel> GetById(Guid id);
 
-        Task<UpdateAuthorReponseModel> UpdateAsync(Guid id, UpdateAuthorModel updateAuthorModel);
+        Task<UpdateAuthorReponseModel> UpdateAsync(Guid id, AuthorResponseModel updateAuthorModel);
 
         Task<bool> DeleteAsync(Guid id);
     }

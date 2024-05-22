@@ -1,0 +1,47 @@
+﻿@page
+@model N_Tier.Frontend.Pages.Authors.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Author</h1>
+
+<h4>Author</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Author.FirstName" class="control-label"></label>
+                <input asp-for="Author.FirstName" class="form-control" />
+                <span asp-validation-for="Author.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author.LastName" class="control-label"></label>
+                <input asp-for="Author.LastName" class="form-control" />
+                <span asp-validation-for="Author.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author.DateOfBirth" class="control-label"></label>
+                <input asp-for="Author.DateOfBirth" class="form-control" type="date" asp-format="{0:yyyy-MM-dd}" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Author.About" class="control-label"></label>
+                <input asp-for="Author.About" class="form-control" />
+                <span asp-validation-for="Author.About" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-page="Index" class="btn btn-outline-primary ml-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
