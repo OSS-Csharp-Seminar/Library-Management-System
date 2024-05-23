@@ -48,6 +48,13 @@ namespace N_Tier.Application.Services.Impl
             return _mapper.Map<AuthorResponseModel>(author);
         }
 
+        public async Task<Author> GetByIdAsync(Guid id)
+        {
+            var author = await _authorRepository.GetById(id);
+
+            return author;
+        }
+
         public async Task<UpdateAuthorReponseModel> UpdateAsync(Guid id, AuthorResponseModel updateAuthorModel)
         {
             var author = await _authorRepository.GetFirstAsync(x => x.Id == id);

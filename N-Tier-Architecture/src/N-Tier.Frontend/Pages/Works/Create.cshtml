@@ -1,0 +1,53 @@
+﻿@page
+@using N_Tier.Core.Enums
+@model N_Tier.Frontend.Pages.Works.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add New Work</h1>
+
+<h4>Work</h4>
+<hr/>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Work.Title" class="control-label"></label>
+                <input asp-for="Work.Title" class="form-control" />
+                <span asp-validation-for="Work.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Work.Genre" class="control-label"></label>
+                <select asp-for="Work.Genre" class="form-control" asp-items="Html.GetEnumSelectList<Genre>()"></select>
+                <span asp-validation-for="Work.Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Authors">Authors</label>
+                <select class="form-control" asp-for="Work.AuthorId">
+                    <option selected>Please select author</option>
+                    @foreach (var author in Model.Authors)
+                    {
+                        <option value="@author.Id">@author.FirstName @author.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Work.Description" class="control-label"></label>
+                <input asp-for="Work.Description" class="form-control" />
+                <span asp-validation-for="Work.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-page="Index" class="btn btn-outline-primary ml-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

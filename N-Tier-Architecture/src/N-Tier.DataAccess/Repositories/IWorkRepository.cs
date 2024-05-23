@@ -14,6 +14,6 @@ namespace N_Tier.DataAccess.Repositories
 
         IQueryable<Work> GetByAuthor(Author author);
 
-        Work GetById(string id);
+        Task<Work> GetById(Guid id);
     }
 }

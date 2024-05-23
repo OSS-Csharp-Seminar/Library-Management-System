@@ -1,0 +1,56 @@
+﻿@page
+@using N_Tier.Core.Enums
+@model N_Tier.Frontend.Pages.Works.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h1>Edit Work</h1>
+
+<h4>Work</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="updateWorkModel.Title" class="control-label"></label>
+                <input asp-for="updateWorkModel.Title" class="form-control" />
+                <span asp-validation-for="updateWorkModel.Title" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <select asp-for="updateWorkModel.Genre" class="form-control"
+                        asp-items="@Html.GetEnumSelectList<Genre>().Select(i=>{i.Value=((Genre)int.Parse(i.Value)).ToString(); return i;})">
+                </select>
+                <label asp-for="updateWorkModel.Genre"></label>
+                <span asp-validation-for="updateWorkModel.Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Authors">Authors</label>
+                <select class="form-control" asp-for="updateWorkModel.AuthorId">
+                    <option value=@null> Please select author</option>
+                    @foreach (var author in Model.Authors)
+                    {
+                        <option value="@author.Id" selected="@(author.Id == Model.updateWorkModel.AuthorId ? true : false)">@author.FirstName @author.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="updateWorkModel.Description" class="control-label"></label>
+                <input asp-for="updateWorkModel.Description" class="form-control" />
+                <span asp-validation-for="updateWorkModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-page="Index" class="btn btn-outline-primary ml-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

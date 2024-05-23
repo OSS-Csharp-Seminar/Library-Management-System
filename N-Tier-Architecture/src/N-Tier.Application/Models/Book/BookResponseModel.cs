@@ -26,7 +26,6 @@ namespace N_Tier.Application.Models.Book
 
         [Required]
         [Display(Name = "Work")]
-        [DataType(DataType.Text)]
-        public string WorkId { get; set; }
+        public N_Tier.Core.Entities.Work Work { get; set; }
     }
 }

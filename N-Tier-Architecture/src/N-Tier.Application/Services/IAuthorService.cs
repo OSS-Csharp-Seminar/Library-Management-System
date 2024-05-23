@@ -16,6 +16,8 @@ namespace N_Tier.Application.Services
 
         Task<AuthorResponseModel> GetById(Guid id);
 
+        Task<Author> GetByIdAsync(Guid id);
+
         Task<UpdateAuthorReponseModel> UpdateAsync(Guid id, AuthorResponseModel updateAuthorModel);
 
         Task<bool> DeleteAsync(Guid id);

@@ -1,5 +1,4 @@
-﻿using N_Tier.Core.Entities;
-using N_Tier.Core.Enums;
+﻿using N_Tier.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace N_Tier.Application.Models.Work
 {
-    public class CreateWorkModel : BaseResponseModel
+    public class UpdateWorkModel
     {
         [Required]
         [Display(Name = "Title")]
@@ -30,5 +29,5 @@ namespace N_Tier.Application.Models.Work
         public Guid AuthorId { get; set; }
     }
 
-    public class CreateWorkResponseModel : BaseResponseModel { }
+    public class UpdateWorkResponseModel : BaseResponseModel { }
 }

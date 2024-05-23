@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using N_Tier.Core.Entities;
 
 namespace N_Tier.Application.Models.Work
 {
@@ -23,12 +24,10 @@ namespace N_Tier.Application.Models.Work
 
         [Required]
         [Display(Name = "Genre")]
-        [DataType(DataType.Text)]
         public Genre Genre { get; set; }
 
         [Required]
         [Display(Name = "Author")]
-        [DataType(DataType.Text)]
-        public string Author { get; set; }
+        public N_Tier.Core.Entities.Author Author { get; set; }
     }
 }

@@ -34,7 +34,7 @@
                 <select class="form-control" asp-for="RoleName">
                     @foreach (var role in Model.Roles)
                     {
-                        <option value="@role.Name" selcted="(@role.Name === @Model.RoleName)">@role.Name</option>
+                        <option value="@role.Name" selected="(@role.Name === @Model.RoleName)">@role.Name</option>
                     }
                 </select>
             </div>

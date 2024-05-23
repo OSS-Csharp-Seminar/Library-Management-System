@@ -33,17 +33,14 @@ namespace N_Tier.Application.Models.Loan
 
         [Required]
         [Display(Name = "Customer")]
-        [DataType(DataType.Text)]
-        public ApplicationUser Customer { get; set; }
+        public string CustomerId { get; set; }
 
         [Required]
         [Display(Name = "Librarian")]
-        [DataType(DataType.Text)]
-        public ApplicationUser Librarian { get; set; }
+        public string LibrarianId { get; set; }
 
         [Required]
         [Display(Name = "Book")]
-        [DataType(DataType.Text)]
         public string Book { get; set; }
     }
 }

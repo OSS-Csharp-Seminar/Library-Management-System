@@ -36,12 +36,12 @@ namespace N_Tier.DataAccess.Repositories.Impl
                 .AsQueryable();
         }
 
-        public Work GetById(string id)
+        public async Task<Work> GetById(Guid id)
         {
-            return DbSet
+            return await DbSet
                 .Include(w => w.Author)
-                .Where(w => w.Id.ToString() == id)
-                .FirstOrDefault();
+                .Where(w => w.Id == id)
+                .FirstOrDefaultAsync();
         }
     }
 }

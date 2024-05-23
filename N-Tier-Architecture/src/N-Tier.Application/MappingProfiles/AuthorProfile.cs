@@ -11,6 +11,7 @@ namespace N_Tier.Application.MappingProfiles
             CreateMap<CreateAuthorModel, Author>();
             CreateMap<UpdateAuthorModel, Author>();
             CreateMap<Author, AuthorResponseModel>();
+            CreateMap<Author, UpdateAuthorModel>();
         }
     }
 }
