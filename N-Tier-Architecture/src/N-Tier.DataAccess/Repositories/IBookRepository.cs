@@ -13,6 +13,6 @@ namespace N_Tier.DataAccess.Repositories
 
         IQueryable<Book> GetByWork(Work work);
 
-        Book GetById(string id);
+        Task<Book> GetById(Guid id);
     }
 }

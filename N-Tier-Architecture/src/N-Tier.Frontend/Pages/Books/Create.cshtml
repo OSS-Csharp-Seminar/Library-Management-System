@@ -1,0 +1,56 @@
+﻿@page
+@using N_Tier.Core.Enums
+@model N_Tier.Frontend.Pages.Books.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add New Book</h1>
+
+<h4>Book</h4>
+<hr/>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Book.Availability" class="control-label"></label>
+                <select asp-for="Book.Availability" class="form-control">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+                <span asp-validation-for="Book.Availability" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Status" class="control-label"></label>
+                <select asp-for="Book.Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+                <span asp-validation-for="Book.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Authors">Authors</label>
+                <select class="form-control" asp-for="Book.WorkId">
+                    <option selected>Please select work</option>
+                    @foreach (var work in Model.Works)
+                    {
+                        <option value="@work.Id">@work.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.ReleaseDate" class="control-label"></label>
+                <input asp-for="Book.ReleaseDate" class="form-control" />
+                <span asp-validation-for="Book.ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-page="Index" class="btn btn-outline-primary ml-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

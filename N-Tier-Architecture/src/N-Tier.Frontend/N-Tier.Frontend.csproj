@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Books\" />
     <Folder Include="Pages\Loans\" />
   </ItemGroup>
 

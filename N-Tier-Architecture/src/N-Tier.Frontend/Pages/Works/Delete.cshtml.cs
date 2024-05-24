@@ -16,7 +16,7 @@ namespace N_Tier.Frontend.Pages.Works
         
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var work = _workService.GetById(id);
+            var work = await _workService.GetById(id);
             if (work == null)
             {
                 return base.BadRequest($"Unable to find work with id '{id}'");
@@ -27,7 +27,7 @@ namespace N_Tier.Frontend.Pages.Works
 
         public async Task<IActionResult> OnPostAsync(Guid id)
         {
-            var work = _workService.GetById(id);
+            var work = await _workService.GetById(id);
             if (work == null)
             {
                 return base.BadRequest($"Unable to find work with id '{id}'");

@@ -1,16 +1,14 @@
-﻿using N_Tier.Core.Entities;
-using N_Tier.Core.Enums;
+﻿using N_Tier.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace N_Tier.Application.Models.Book
 {
-    public class CreateBookModel
+    public class UpdateBookModel : BaseResponseModel
     {
         [Required]
         [Display(Name = "ReleaseDate")]
@@ -30,5 +28,5 @@ namespace N_Tier.Application.Models.Book
         public Guid WorkId { get; set; }
     }
 
-    public class CreateBookResponseModel : BaseResponseModel { }
+    public class UpdateBookResponseModel : BaseResponseModel { }
 }

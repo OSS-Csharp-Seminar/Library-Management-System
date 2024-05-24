@@ -23,12 +23,12 @@ namespace N_Tier.DataAccess.Repositories.Impl
                 .AsQueryable();
         }
 
-        public Book GetById(string id)
+        public async Task<Book> GetById(Guid id)
         {
-            return DbSet
+            return await DbSet
                 .Include(b => b.Work)
-                .Where(b => b.Id.ToString() == id)
-                .FirstOrDefault();
+                .Where(b => b.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public IQueryable<Book> GetByWork(Work work)
