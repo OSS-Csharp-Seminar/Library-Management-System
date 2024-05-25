@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="Authors">Authors</label>
                 <select class="form-control" asp-for="Book.WorkId">
-                    <option selected>Please select work</option>
+                    <option selected>Please select a work</option>
                     @foreach (var work in Model.Works)
                     {
                         <option value="@work.Id">@work.Title</option>

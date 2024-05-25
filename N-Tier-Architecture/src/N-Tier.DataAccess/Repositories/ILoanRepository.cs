@@ -16,6 +16,6 @@ namespace N_Tier.DataAccess.Repositories
 
         IQueryable<Loan> GetByCustomer(ApplicationUser customer);
 
-        Loan GetById(string id);
+        Task<Loan> GetById(Guid id);
     }
 }

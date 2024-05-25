@@ -1,0 +1,19 @@
+﻿@page
+@model N_Tier.Frontend.Pages.Loans.PayModel
+@{
+    ViewData["Title"] = "Pay";
+}
+
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>You are about to return a book and pay a fine.</strong>
+    </p>
+</div>
+
+<div>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Return book and pay fine</button>
+    </form>
+</div>

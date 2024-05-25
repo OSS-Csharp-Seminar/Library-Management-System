@@ -32,8 +32,4 @@
     <ProjectReference Include="..\N-Tier.Shared\Library.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Loans\" />
-  </ItemGroup>
-
 </Project>

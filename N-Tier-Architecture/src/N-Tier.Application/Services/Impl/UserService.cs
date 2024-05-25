@@ -117,4 +117,34 @@ public class UserService : IUserService
             Id = Guid.Parse(user.Id)
         };
     }
+
+    public async Task<ApplicationUser> GetRandomLibrarianAsync()
+    {
+        // Get all users
+        var users = await _userManager.Users.ToListAsync();
+
+        // Filter users to only those who are in the "Librarian" role
+        var librarians = new List<ApplicationUser>();
+
+        foreach (var user in users)
+        {
+            if (await _userManager.IsInRoleAsync(user, "Librarian"))
+            {
+                librarians.Add(user);
+            }
+        }
+
+        // If no librarians found, return null or handle accordingly
+        if (!librarians.Any())
+        {
+            return null;
+        }
+
+        // Get a random index
+        var random = new Random();
+        int randomIndex = random.Next(librarians.Count);
+
+        // Return the random librarian
+        return librarians[randomIndex];
+    }
 }

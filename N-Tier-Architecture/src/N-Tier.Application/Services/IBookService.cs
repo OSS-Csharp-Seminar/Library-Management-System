@@ -13,9 +13,13 @@ namespace N_Tier.Application.Services
 
         Task<IEnumerable<BookResponseModel>> GetAllAsync();
 
+        Task<IEnumerable<BookResponseModel>> GetAllAvailableAsync();
+
         Task<BookResponseModel> GetById(Guid id);
 
         Task<UpdateBookResponseModel> UpdateAsync(Guid id, BookResponseModel bookResponseModel);
+
+        Task<bool> UpdateAvailability(Guid id, bool available);
 
         Task<bool> DeleteAsync(Guid id);
     }

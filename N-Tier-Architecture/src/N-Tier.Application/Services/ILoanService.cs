@@ -11,7 +11,7 @@ namespace N_Tier.Application.Services
 {
     public interface ILoanService
     {
-        Task<LoanResponseModel> CreateAsync(CreateLoanModel createLoanModel);
+        Task<CreateLoanResponseModel> CreateAsync(CreateLoanModel createLoanModel);
 
         Task<IEnumerable<LoanResponseModel>> GetAllAsync(); 
 
@@ -19,8 +19,12 @@ namespace N_Tier.Application.Services
 
         Task<IEnumerable<LoanResponseModel>> GetByCustomerAsync(ApplicationUser customer);
 
-        Task<Loan> GetByIdAsync(string id); 
+        Task<Loan> GetByIdAsync(Guid id); 
 
-        Task<Loan> UpdateAsync(Loan loan);
+        Task<UpdateLoanResponseModel> UpdateAsync(Guid id, UpdateLoanModel updateLoanModel);
+
+        Task<UpdateLoanResponseModel> UpdateReturnDateAsync(Guid id);
+
+        Task<bool> UpdateFinesAsync(IEnumerable<LoanResponseModel> loanResponseModels);
     }
 }

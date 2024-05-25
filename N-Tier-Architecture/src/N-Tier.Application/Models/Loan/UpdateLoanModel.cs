@@ -1,41 +1,46 @@
-﻿using N_Tier.Core.Entities.Identity;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace N_Tier.Application.Models.Loan
 {
-    public class CreateLoanModel
+    public class UpdateLoanModel
     {
         [Required]
-        [Display(Name = "Loan Date")]
+        [Display(Name = "LoanDate")]
         [DataType(DataType.DateTime)]
         public DateTime LoanDate { get; set; }
 
         [Required]
-        [Display(Name = "Due Date")]
+        [Display(Name = "DueDate")]
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
 
-        [Display(Name = "Return Date")]
+
+        [Display(Name = "ReturnDate")]
         [DataType(DataType.DateTime)]
         public DateTime? ReturnDate { get; set; }
 
+
         [Display(Name = "Fine")]
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Text)]
         public decimal Fine { get; set; }
 
         [Required]
         [Display(Name = "Customer")]
-        public ApplicationUser Customer { get; set; }
+        public string CustomerId { get; set; }
 
         [Required]
         [Display(Name = "Librarian")]
-        public ApplicationUser Librarian { get; set; }
+        public string LibrarianId { get; set; }
 
         [Required]
         [Display(Name = "Book")]
-        public Guid BookId { get; set; }
+        public string Book { get; set; }
     }
 
-    public class CreateLoanResponseModel : BaseResponseModel { }
+    public class UpdateLoanResponseModel : BaseResponseModel { }
 }

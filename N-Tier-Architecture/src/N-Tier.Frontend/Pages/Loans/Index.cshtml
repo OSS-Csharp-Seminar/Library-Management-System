@@ -1,0 +1,206 @@
+﻿@page
+@model N_Tier.Frontend.Pages.Loans.IndexModel
+@{
+    ViewData["Title"] = "Loans";
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var pageSize = @ViewData["pageSize"];
+    var sortString = @ViewData["sortString"] as string;
+    var searchString = @ViewData["searchString"] as string;
+}
+
+<h1>Loans</h1>
+
+@if(User.IsInRole("Customer"))
+{ 
+    <p>
+        <a asp-page="Create" class="btn btn-primary">Make a New Loan</a>
+    </p>
+}
+
+<form method="get">
+    <div class="d-flex justify-content-between mb-3">
+        <div class="form-inline">
+            <div class="input-group ml-3">
+                <input id="pageSizeInput" class="form-control" type="number" name="pageSize" value="@pageSize" title="Items Per Page" style="width: 100px; margin-right: 5px;" min="1">
+
+                <input id="myInput" class="form-control" type="search" placeholder="Search" name="SearchString" value="@searchString" aria-label="Search" style="width: 200px;">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="sortString" value="@sortString" />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Loans.ElementAt(0).Book.Work.Title)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('TitleAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('TitleDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Loans.ElementAt(0).LoanDate)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('LoanDateAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('LoanDateDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Loans.ElementAt(0).DueDate)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('DueDateAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('DueDateDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Loans.ElementAt(0).ReturnDate)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('ReturnDateAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('ReturnDateDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Loans.ElementAt(0).Fine)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('FineAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('FineDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                @if(User.IsInRole("Administrator"))
+                { 
+                    <th>
+                        @Html.DisplayNameFor(model => model.Loans.ElementAt(0).Customer)
+                        <button type="submit" title="Sort ascending" onclick="changeSort('CustomerAsc')" style="background: none; border: none;">
+                            <i class="bi bi-caret-up-fill"></i>
+                        </button>
+                        <button type="submit" title="Sort descending" onclick="changeSort('CustomerDesc')" style="background: none; border: none;">
+                            <i class="bi bi-caret-down-fill"></i>
+                        </button>
+                    </th>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Loans.ElementAt(0).Librarian)
+                        <button type="submit" title="Sort ascending" onclick="changeSort('LibrarianAsc')" style="background: none; border: none;">
+                            <i class="bi bi-caret-up-fill"></i>
+                        </button>
+                        <button type="submit" title="Sort descending" onclick="changeSort('LibrarianDesc')" style="background: none; border: none;">
+                            <i class="bi bi-caret-down-fill"></i>
+                        </button>
+                    </th>
+                }
+                @if (User.IsInRole("Customer"))
+                {
+                    <th>Action</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Loans)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Work.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoanDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReturnDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fine)
+                    </td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer.FirstName)
+                        </td>
+                    }
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Librarian.FirstName)
+                        </td>
+                    }
+                    @if (User.IsInRole("Customer"))
+                    { 
+                        <td>
+                            @if(DateTime.Now > item.DueDate && item.ReturnDate == null)
+                            { 
+                                <a asp-page="./Pay" asp-route-id="@item.Id" class="btn btn-primary">Pay and Return</a>
+                            }
+                            @if (DateTime.Now <= item.DueDate && item.ReturnDate == null)
+                            { 
+                                <a asp-page="./Return" asp-route-id="@item.Id" class="btn btn-danger">Return</a>
+                            }
+                            @if (item.ReturnDate != null && item.Fine != 0)
+                            {
+                                <label>Returned and paid</label>
+                            }
+                            @if (item.ReturnDate != null && item.Fine == 0)
+                            {
+                                <label>Returned</label>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</form>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-action="Index"
+               asp-route-searchString="@searchString"
+               asp-route-pageNumber="@(Model.pageIndex - 1)"
+               asp-route-sortString="@sortString"
+               asp-route-pageSize="@pageSize"
+               class="btn btn-default page-link @prevDisabled">
+                Previous
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a asp-action="Index"
+               asp-route-searchString="@searchString"
+               asp-route-pageNumber="@(Model.pageIndex + 1)"
+               asp-route-sortString="@sortString"
+               asp-route-pageSize="@pageSize"
+               class="btn btn-default page-link @nextDisabled">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    function changeSort(sortValue) {
+        document.querySelector('input[name="sortString"]').value = sortValue;
+        document.querySelector('form').submit();
+    }
+</script>
+

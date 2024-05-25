@@ -39,7 +39,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Authors/Index">Authors</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Loans</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Loans/Index">Loans</a>
                             </li>
                         }
 
@@ -49,20 +49,20 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Authors/Index">Authors</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Books</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Books/Index">Books</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Loans</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Loans/Index">Loans</a>
                             </li>
                         }
 
                         @if (User.IsInRole("Customer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Books</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Books/Index">Books</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Loans</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Loans/Index">Loans</a>
                             </li>
                         }
                     </ul>

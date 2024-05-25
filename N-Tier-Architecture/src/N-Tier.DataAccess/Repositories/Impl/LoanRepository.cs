@@ -20,6 +20,7 @@ namespace N_Tier.DataAccess.Repositories.Impl
                 .Include(l => l.Librarian)
                 .Include(l => l.Customer)
                 .Include(l => l.Book)
+                    .ThenInclude(b => b.Work)
                 .OrderBy(l => l.LoanDate)
                     .ThenBy(l => l.DueDate)
                 .AsQueryable();
@@ -31,20 +32,22 @@ namespace N_Tier.DataAccess.Repositories.Impl
                 .Include(l => l.Librarian)
                 .Include(l => l.Customer)
                 .Include(l => l.Book)
+                    .ThenInclude(b => b.Work)
                 .Where(l => l.Customer == customer)
                 .OrderBy(l => l.LoanDate)
                     .ThenBy(l => l.DueDate)
                 .AsQueryable();
         }
 
-        public Loan GetById(string id)
+        public async Task<Loan> GetById(Guid id)
         {
-            return DbSet
+            return await DbSet
                 .Include(l => l.Librarian)
                 .Include(l => l.Customer)
                 .Include(l => l.Book)
-                .Where(l => l.Id.ToString() == id)
-                .FirstOrDefault();
+                    .ThenInclude(b => b.Work)
+                .Where(l => l.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public IQueryable<Loan> GetByLibrarian(ApplicationUser librarian)
@@ -53,6 +56,7 @@ namespace N_Tier.DataAccess.Repositories.Impl
                 .Include(l => l.Librarian)
                 .Include(l => l.Customer)
                 .Include(l => l.Book)
+                    .ThenInclude(b => b.Work)
                 .Where(l => l.Librarian == librarian)
                 .OrderBy(l => l.LoanDate)
                     .ThenBy(l => l.DueDate)

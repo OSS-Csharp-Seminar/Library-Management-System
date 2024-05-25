@@ -44,6 +44,13 @@ namespace N_Tier.Application.Services.Impl
             return _mapper.Map<IEnumerable<BookResponseModel>>(books);
         }
 
+        public async Task<IEnumerable<BookResponseModel>> GetAllAvailableAsync()
+        {
+            var books = await _bookRepository.GetAll().Where(b => b.Availability == true).ToListAsync();
+
+            return _mapper.Map<IEnumerable<BookResponseModel>>(books);
+        }
+
         public async Task<BookResponseModel> GetById(Guid id)
         {
             var book = await _bookRepository.GetById(id);
@@ -64,6 +71,17 @@ namespace N_Tier.Application.Services.Impl
             {
                 Id = (await _bookRepository.UpdateAsync(book)).Id
             };
+        }
+
+        public async Task<bool> UpdateAvailability(Guid id, bool available)
+        {
+            var book = await _bookRepository.GetById(id);
+            
+            book.Availability = available;
+
+            await _bookRepository.UpdateAsync(book);
+
+            return true;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
