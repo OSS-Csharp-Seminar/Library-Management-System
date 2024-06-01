@@ -10,10 +10,12 @@
 }
 
 <h1>Books</h1>
-
-<p>
-    <a asp-page="Create" class="btn btn-primary">Add New Book</a>
-</p>
+@if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+{
+    <p>
+        <a asp-page="Create" class="btn btn-primary">Add New Book</a>
+    </p>
+}
 
 <form method="get">
     <div class="d-flex justify-content-between mb-3">
@@ -61,8 +63,19 @@
                         <i class="bi bi-caret-down-fill"></i>
                     </button>
                 </th>
-                <th>Release Date</th>
-                <th>Action</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Books.ElementAt(0).ReleaseDate)
+                    <button type="submit" title="Sort ascending" onclick="changeSort('ReleaseDateAsc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-up-fill"></i>
+                    </button>
+                    <button type="submit" title="Sort descending" onclick="changeSort('ReleaseDateDesc')" style="background: none; border: none;">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </th>
+                @if(User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+                {
+                    <th>Action</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -81,10 +94,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ReleaseDate)
                     </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+                    {
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using N_Tier.Application.Models.Author;
@@ -8,6 +9,7 @@ using N_Tier.Core.Entities;
 
 namespace N_Tier.Frontend.Pages.Works
 {
+    [Authorize(Roles = "Administrator, Librarian")]
     public class EditModel : PageModel
     {
         private readonly IWorkService _workService;

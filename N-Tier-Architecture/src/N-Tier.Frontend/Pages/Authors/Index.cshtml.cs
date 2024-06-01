@@ -48,9 +48,9 @@ namespace N_Tier.Frontend.Pages.Authors
                 case "LastNameDesc":
                     Authors = Authors.OrderByDescending(item => item.LastName).ToList(); break;
                 case "DateOfBirthAsc":
-                    Authors = Authors.OrderBy(item => item.DateOfBirth.ToString()).ToList(); break;
+                    Authors = Authors.OrderBy(item => item.DateOfBirth).ToList(); break;
                 case "DateOfBirthDesc":
-                    Authors = Authors.OrderByDescending(item => item.DateOfBirth.ToString()).ToList(); break;
+                    Authors = Authors.OrderByDescending(item => item.DateOfBirth).ToList(); break;
                 default:
                     Authors = Authors.OrderBy(item => item.FirstName).ToList(); break;
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using N_Tier.Application.Models.Author;
 using N_Tier.Application.Models.Work;
@@ -7,6 +8,7 @@ using N_Tier.Core.Entities;
 
 namespace N_Tier.Frontend.Pages.Works
 {
+    [Authorize(Roles = "Administrator, Librarian")]
     public class CreateModel : PageModel
     {
         private readonly IWorkService _workService;

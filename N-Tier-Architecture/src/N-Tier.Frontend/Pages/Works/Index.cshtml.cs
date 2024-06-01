@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.Work;
@@ -6,6 +7,7 @@ using N_Tier.Application.Services;
 
 namespace N_Tier.Frontend.Pages.Works
 {
+    [Authorize(Roles = "Administrator, Librarian")]
     public class IndexModel : PageModel
     {
         private readonly IWorkService _workService;
@@ -40,6 +42,26 @@ namespace N_Tier.Frontend.Pages.Works
                                             || item.Author.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
                                             || item.Author.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
+            }
+
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    Works = Works.OrderByDescending(item => item.Title).ToList(); break;
+                case "GenreAsc":
+                    Works = Works.OrderBy(item => item.Genre).ToList(); break;
+                case "GenreDesc":
+                    Works = Works.OrderByDescending(item => item.Genre).ToList(); break;
+                case "FirstNameAsc":
+                    Works = Works.OrderBy(item => item.Author.FirstName).ToList(); break;
+                case "FirstNameDesc":
+                    Works = Works.OrderByDescending(item => item.Author.FirstName).ToList(); break;
+                case "LastNameAsc":
+                    Works = Works.OrderBy(item => item.Author.LastName).ToList(); break;
+                case "LastNameDesc":
+                    Works = Works.OrderByDescending(item => item.Author.LastName).ToList(); break;
+                default:
+                    Works = Works.OrderBy(item => item.Title).ToList(); break;
             }
 
             int worksSize = Works.Count();

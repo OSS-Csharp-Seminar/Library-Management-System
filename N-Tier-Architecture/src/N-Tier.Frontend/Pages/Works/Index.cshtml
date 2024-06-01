@@ -10,10 +10,12 @@
 }
 
 <h1>Works</h1>
-
-<p>
-    <a asp-page="Create" class="btn btn-primary">Add New Work</a>
-</p>
+@if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+{
+    <p>
+        <a asp-page="Create" class="btn btn-primary">Add New Work</a>
+    </p>
+}
 
 <form method="get">
     <div class="d-flex justify-content-between mb-3">
@@ -71,7 +73,10 @@
                     </button>
                 </th>
                 <th>Description</th>
-                <th>Action</th>
+                @if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+                {
+                    <th>Action</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -93,10 +98,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    </td>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+                    {
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

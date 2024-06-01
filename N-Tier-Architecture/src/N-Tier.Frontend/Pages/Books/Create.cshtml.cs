@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using N_Tier.Application.Models.Book;
 using N_Tier.Application.Models.Work;
@@ -7,6 +8,7 @@ using N_Tier.Core.Entities;
 
 namespace N_Tier.Frontend.Pages.Books
 {
+    [Authorize(Roles = "Administrator, Librarian")]
     public class CreateModel : PageModel
     {
         private readonly IBookService _bookService;

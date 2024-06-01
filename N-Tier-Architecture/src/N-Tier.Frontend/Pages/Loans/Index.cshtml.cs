@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using N_Tier.Application.Models;
 using N_Tier.Application.Models.Loan;
 using N_Tier.Application.Services;
+using N_Tier.Core.Entities;
 using N_Tier.Core.Entities.Identity;
 
 namespace N_Tier.Frontend.Pages.Loans
@@ -68,6 +69,30 @@ namespace N_Tier.Frontend.Pages.Loans
                                             || item.Librarian.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
                                             || item.Librarian.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
+            }
+
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    Loans = Loans.OrderByDescending(item => item.Book.Work.Title).ToList(); break;
+                case "LoanDateAsc":
+                    Loans = Loans.OrderBy(item => item.LoanDate).ToList(); break;
+                case "LoanDateDesc":
+                    Loans = Loans.OrderByDescending(item => item.LoanDate).ToList(); break;
+                case "DueDateAsc":
+                    Loans = Loans.OrderBy(item => item.DueDate).ToList(); break;
+                case "DueDateDesc":
+                    Loans = Loans.OrderByDescending(item => item.DueDate).ToList(); break;
+                case "ReturnDateAsc":
+                    Loans = Loans.OrderBy(item => item.ReturnDate).ToList(); break;
+                case "ReturnDateDesc":
+                    Loans = Loans.OrderByDescending(item => item.ReturnDate).ToList(); break;
+                case "FineAsc":
+                    Loans = Loans.OrderBy(item => item.Fine).ToList(); break;
+                case "FineDesc":
+                    Loans = Loans.OrderByDescending(item => item.Fine).ToList(); break;
+                default:
+                    Loans = Loans.OrderBy(item => item.Book.Work.Title).ToList(); break;
             }
 
             int loanSize = Loans.Count();

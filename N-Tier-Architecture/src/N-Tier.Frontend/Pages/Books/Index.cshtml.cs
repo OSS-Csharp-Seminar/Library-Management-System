@@ -42,6 +42,22 @@ namespace N_Tier.Frontend.Pages.Books
                                             .ToList();
             }
 
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    Books = Books.OrderByDescending(item => item.Work.Title).ToList(); break;
+                case "StatusAsc":
+                    Books = Books.OrderBy(item => item.Status).ToList(); break;
+                case "StatusDesc":
+                    Books = Books.OrderByDescending(item => item.Status).ToList(); break;
+                case "ReleaseDateAsc":
+                    Books = Books.OrderBy(item => item.ReleaseDate).ToList(); break;
+                case "ReleaseDateDesc":
+                    Books = Books.OrderByDescending(item => item.ReleaseDate).ToList(); break;
+                default:
+                    Books = Books.OrderBy(item => item.Work.Title).ToList(); break;
+            }
+
             int booksSize = Books.Count();
 
             Books = PaginatedList<BookResponseModel>.Create(Books, pageNumber, pageSize);

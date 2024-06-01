@@ -6,7 +6,7 @@ using N_Tier.Application.Services;
 
 namespace N_Tier.Frontend.Pages.Authors
 {
-    [Authorize(Roles ="Administrator")]
+    [Authorize(Roles ="Administrator, Librarian")]
     public class CreateModel : PageModel
     {
         private readonly IAuthorService _authorService;
