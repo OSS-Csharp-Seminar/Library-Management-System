@@ -1,4 +1,5 @@
 ﻿@page
+@using N_Tier.Core.Enums
 @model N_Tier.Frontend.Pages.Works.IndexModel
 @{
     ViewData["Title"] = "Works";
@@ -7,6 +8,7 @@
     var pageSize = @ViewData["pageSize"];
     var sortString = @ViewData["sortString"] as string;
     var searchString = @ViewData["searchString"] as string;
+    var filterString = @ViewData["filterString"] as string;
 }
 
 <h1>Works</h1>
@@ -27,6 +29,20 @@
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+        <div class="form-inline">
+            <div class="input-group ml-3">
+                <select name="filterString" class="form-select mt-1" onchange="this.form.submit()" style="width: 100px; margin-right: 5px;">
+                    <option value="none" selected="@(filterString == "none")">No filter</option>
+                    @foreach (var genre in @Html.GetEnumSelectList<Genre>())
+                    {
+                        <option value="@genre.Text" selected="@(genre.Text.ToString() == filterString)">@genre.Text</option>
+                    }
+                </select>
             </div>
         </div>
     </div>
@@ -120,6 +136,7 @@
                asp-route-pageNumber="@(Model.pageIndex - 1)"
                asp-route-sortString="@sortString"
                asp-route-pageSize="@pageSize"
+               asp-route-filterString="@filterString"
                class="btn btn-default page-link @prevDisabled">
                 Previous
             </a>
@@ -131,6 +148,7 @@
                asp-route-pageNumber="@(Model.pageIndex + 1)"
                asp-route-sortString="@sortString"
                asp-route-pageSize="@pageSize"
+               asp-route-filterString="@filterString"
                class="btn btn-default page-link @nextDisabled">
                 Next
             </a>

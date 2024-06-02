@@ -22,7 +22,7 @@ namespace N_Tier.Frontend.Pages.Authors
         [BindProperty]
         public IEnumerable<AuthorResponseModel> Authors { get; set; } = default!;
 
-        public async Task<PageResult> OnGetAsync(string searchString, int pageNumber, string sortString, int pageSize = 5)
+        public async Task<PageResult> OnGetAsync(string searchString, int pageNumber, DateOnly? filterDateStart, DateOnly? filterDateEnd, string sortString, int pageSize = 5)
         {
             ViewData["searchString"] = searchString;
             ViewData["pageSize"] = pageSize;
@@ -37,6 +37,15 @@ namespace N_Tier.Frontend.Pages.Authors
                 Authors = Authors.Where(item => item.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
                                         || item.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
                                         || item.About.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (filterDateStart.HasValue)
+            {
+                Authors = Authors.Where(item => item.DateOfBirth >= filterDateStart);
+            }
+            if(filterDateEnd.HasValue)
+            {
+                Authors = Authors.Where(item => item.DateOfBirth <= filterDateEnd);
             }
 
             switch (sortString)

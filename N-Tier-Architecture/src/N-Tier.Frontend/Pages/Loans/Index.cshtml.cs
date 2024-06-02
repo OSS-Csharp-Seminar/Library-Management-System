@@ -31,7 +31,7 @@ namespace N_Tier.Frontend.Pages.Loans
 
         public IEnumerable<LoanResponseModel> Loans { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(string searchString, int pageNumber, string sortString, int pageSize = 5)
+        public async Task<IActionResult> OnGetAsync(string searchString, int pageNumber, string sortString, DateTime? filterDateStart, DateTime? filterDateEnd, int pageSize = 5, string filterString = "none")
         {
             ViewData["searchString"] = searchString;
             ViewData["pageSize"] = pageSize;
@@ -70,6 +70,43 @@ namespace N_Tier.Frontend.Pages.Loans
                                             || item.Librarian.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
             }
+
+            if(filterString == "LoanDate")
+            {
+                if(filterDateStart.HasValue)
+                {
+                    Loans = Loans.Where(item => item.LoanDate >=  filterDateStart);
+                }
+                if(filterDateEnd.HasValue)
+                {
+                    Loans = Loans.Where(item => item.LoanDate <= filterDateEnd);
+                }
+            }
+
+            if (filterString == "DueDate")
+            {
+                if (filterDateStart.HasValue)
+                {
+                    Loans = Loans.Where(item => item.DueDate >= filterDateStart);
+                }
+                if (filterDateEnd.HasValue)
+                {
+                    Loans = Loans.Where(item => item.DueDate <= filterDateEnd);
+                }
+            }
+
+            if (filterString == "ReturnDate")
+            {
+                if (filterDateStart.HasValue)
+                {
+                    Loans = Loans.Where(item => item.ReturnDate >= filterDateStart);
+                }
+                if (filterDateEnd.HasValue)
+                {
+                    Loans = Loans.Where(item => item.ReturnDate <= filterDateEnd);
+                }
+            }
+
 
             switch (sortString)
             {

@@ -7,6 +7,9 @@
     var pageSize = @ViewData["pageSize"];
     var sortString = @ViewData["sortString"] as string;
     var searchString = @ViewData["searchString"] as string;
+    var filterString = ViewData["filterString"] as string;
+    var filterDateStart = ViewData["filterDateStart"];
+    var filterDateEnd = ViewData["filterDateEnd"];
 }
 
 <h1>Loans</h1>
@@ -27,6 +30,25 @@
                 <input id="myInput" class="form-control" type="search" placeholder="Search" name="SearchString" value="@searchString" aria-label="Search" style="width: 200px;">
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+        <div class="form-inline">
+            <div class="input-group ml-3">
+                <select name="filterString" class="form-select mt-1" style="width: 100px; margin-right: 5px;">
+                    <option value="none" selected="@("none" == filterString)">No filter</option>
+                    <option value="LoanDate" selected="@("LoanDate" == filterString)">Loan Date</option>
+                    <option value="DueDate" selected="@("DueDate" == filterString)">Due Date</option>
+                    <option value="ReturnDate" selected="@("ReturnDate" == filterString)">Return Date</option>
+                </select>
+
+                <input type="date" class="form-control" placeholder="Pick start date" name="filterDateStart" value="@filterDateStart" style="width: 100px; margin-right: 5px;"></input>
+                <input type="date" class="form-control" placeholder="Pick end date" name="filterDateEnd" value="@filterDateEnd" style="width: 100px; margin-right: 5px;"></input>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">Filter</button>
                 </div>
             </div>
         </div>
@@ -179,6 +201,9 @@
                asp-route-pageNumber="@(Model.pageIndex - 1)"
                asp-route-sortString="@sortString"
                asp-route-pageSize="@pageSize"
+               asp-route-filterString="@filterString"
+               asp-route-filterDateStart="@filterDateStart"
+               asp-route-filterDateEnd="@filterDateEnd"
                class="btn btn-default page-link @prevDisabled">
                 Previous
             </a>
@@ -190,6 +215,9 @@
                asp-route-pageNumber="@(Model.pageIndex + 1)"
                asp-route-sortString="@sortString"
                asp-route-pageSize="@pageSize"
+               asp-route-filterString="@filterString"
+               asp-route-filterDateStart="@filterDateStart"
+               asp-route-filterDateEnd="@filterDateEnd"
                class="btn btn-default page-link @nextDisabled">
                 Next
             </a>

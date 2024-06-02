@@ -25,11 +25,12 @@ namespace N_Tier.Frontend.Pages.Works
 
         public IEnumerable<WorkResponseModel> Works { get; set; } = default!;
 
-        public async Task<PageResult> OnGetAsync(string searchString, int pageNumber, string sortString, int pageSize = 5)
+        public async Task<PageResult> OnGetAsync(string searchString, int pageNumber, string sortString, int pageSize = 5, string filterString = "none")
         {
             ViewData["searchString"] = searchString;
             ViewData["pageSize"] = pageSize;
             ViewData["sortString"] = sortString;
+            ViewData["filterString"] = filterString;
 
             pageNumber = pageNumber == 0 ? 1 : pageNumber;
 
@@ -42,6 +43,11 @@ namespace N_Tier.Frontend.Pages.Works
                                             || item.Author.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
                                             || item.Author.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
+            }
+
+            if(filterString != "none")
+            {
+                Works = Works.Where(item => item.Genre.ToString() == filterString).ToList();
             }
 
             switch (sortString)

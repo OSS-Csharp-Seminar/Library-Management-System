@@ -24,11 +24,14 @@ namespace N_Tier.Frontend.Pages.Books
 
         public IEnumerable<BookResponseModel> Books { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(string searchString, int pageNumber, string sortString, int pageSize = 5)
+        public async Task<IActionResult> OnGetAsync(string searchString, int pageNumber, string sortString, DateOnly? filterDateStart, DateOnly? filterDateEnd, int pageSize = 5, string filterString = "none")
         {
             ViewData["searchString"] = searchString;
             ViewData["pageSize"] = pageSize;
             ViewData["sortString"] = sortString;
+            ViewData["filterString"] = filterString;
+            ViewData["filterDateStart"] = filterDateStart;
+            ViewData["filterDateEnd"] = filterDateEnd;
 
             pageNumber = pageNumber == 0 ? 1 : pageNumber;
 
@@ -41,6 +44,21 @@ namespace N_Tier.Frontend.Pages.Books
                                             || item.Work.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                             .ToList();
             }
+
+            if(filterString != "none")
+            {
+                Books = Books.Where(item => item.Status.ToString() == filterString);
+            }
+
+            if (filterDateStart.HasValue)
+            {
+                Books = Books.Where(item => item.ReleaseDate >= filterDateStart);
+            }
+            if (filterDateEnd.HasValue)
+            {
+                Books = Books.Where(item => item.ReleaseDate <= filterDateEnd);
+            }
+            
 
             switch (sortString)
             {
