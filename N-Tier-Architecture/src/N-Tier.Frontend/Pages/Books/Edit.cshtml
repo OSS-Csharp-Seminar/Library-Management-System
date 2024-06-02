@@ -23,8 +23,9 @@
                 <span asp-validation-for="updateBookModel.Availability" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <select asp-for="updateBookModel.Status" class="form-control"
-                        asp-items="@Html.GetEnumSelectList<Status>().Select(i=>{i.Value=((Status)int.Parse(i.Value)).ToString(); return i;})">
+                <select asp-for="updateBookModel.Status" class="form-control">
+                        <option value="Available">Available</option>
+                        <option value="Disabled">Disabled</option>
                 </select>
                 <label asp-for="updateBookModel.Status"></label>
                 <span asp-validation-for="updateBookModel.Status" class="text-danger"></span>

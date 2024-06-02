@@ -1,4 +1,5 @@
 ﻿@page
+@using N_Tier.Core.Enums
 @model N_Tier.Frontend.Pages.Books.IndexModel
 @{
     ViewData["Title"] = "Books";
@@ -116,12 +117,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ReleaseDate)
                     </td>
-                    @if (User.IsInRole("Administrator") || User.IsInRole("Librarian"))
+                    @if (item.Status != Status.InUse && (User.IsInRole("Administrator") || User.IsInRole("Librarian")))
                     {
                         <td>
                             <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                             <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                         </td>
+                    }
+                    @if (item.Status == Status.InUse && (User.IsInRole("Administrator") || User.IsInRole("Librarian")))
+                    {
+                        <td>Actions not available</td>
                     }
                 </tr>
             }

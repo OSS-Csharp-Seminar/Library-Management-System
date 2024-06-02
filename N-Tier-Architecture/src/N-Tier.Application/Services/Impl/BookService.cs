@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using N_Tier.Application.Models.Book;
 using N_Tier.Core.Entities;
+using N_Tier.Core.Enums;
 using N_Tier.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace N_Tier.Application.Services.Impl
 
         public async Task<IEnumerable<BookResponseModel>> GetAllAvailableAsync()
         {
-            var books = await _bookRepository.GetAll().Where(b => b.Availability == true).ToListAsync();
+            var books = await _bookRepository.GetAll().Where(b => b.Availability == true && b.Status == Status.Available).ToListAsync();
 
             return _mapper.Map<IEnumerable<BookResponseModel>>(books);
         }
@@ -78,6 +79,15 @@ namespace N_Tier.Application.Services.Impl
             var book = await _bookRepository.GetById(id);
             
             book.Availability = available;
+
+            if(available == true)
+            {
+                book.Status = Status.Available;
+            }
+            if (available == false)
+            {
+                book.Status = Status.InUse;
+            }
 
             await _bookRepository.UpdateAsync(book);
 
