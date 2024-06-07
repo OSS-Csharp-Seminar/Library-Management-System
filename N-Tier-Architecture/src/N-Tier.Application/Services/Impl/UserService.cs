@@ -120,10 +120,8 @@ public class UserService : IUserService
 
     public async Task<ApplicationUser> GetRandomLibrarianAsync()
     {
-        // Get all users
         var users = await _userManager.Users.ToListAsync();
 
-        // Filter users to only those who are in the "Librarian" role
         var librarians = new List<ApplicationUser>();
 
         foreach (var user in users)
@@ -134,17 +132,47 @@ public class UserService : IUserService
             }
         }
 
-        // If no librarians found, return null or handle accordingly
         if (!librarians.Any())
         {
             return null;
         }
 
-        // Get a random index
         var random = new Random();
         int randomIndex = random.Next(librarians.Count);
 
-        // Return the random librarian
         return librarians[randomIndex];
+    }
+
+    public IEnumerable<ApplicationUser> Search(IEnumerable<ApplicationUser> Users, string searchString)
+    {
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            Users = Users.Where(user => (user.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                        user.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                        user.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        return Users;
+    }
+
+    public IEnumerable<ApplicationUser> Sort(IEnumerable<ApplicationUser> Users, string sortString)
+    {
+        switch (sortString)
+        {
+            case "FirstNameDesc":
+                Users = Users.OrderByDescending(item => item.FirstName).ToList(); break;
+            case "LastNameAsc":
+                Users = Users.OrderBy(item => item.LastName).ToList(); break;
+            case "LastNameDesc":
+                Users = Users.OrderByDescending(item => item.LastName); break;
+            case "EmailAsc":
+                Users = Users.OrderBy(item => item.Email).ToList(); break;
+            case "EmailDesc":
+                Users = Users.OrderByDescending((item) => item.Email).ToList(); break;
+            default:
+                Users = Users.OrderBy((item) => item.FirstName).ToList(); break;
+        }
+
+        return Users;
     }
 }

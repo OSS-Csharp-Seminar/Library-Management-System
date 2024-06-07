@@ -61,78 +61,13 @@ namespace N_Tier.Frontend.Pages.Loans
                 await _loanService.UpdateFinesAsync(Loans);
             }
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                Loans = Loans.Where(item => item.Book.Work.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Customer.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Customer.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Librarian.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Librarian.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                                            .ToList();
-            }
+            Loans = _loanService.Search(Loans, searchString);
 
-            if(filterString == "LoanDate")
-            {
-                if(filterDateStart.HasValue)
-                {
-                    Loans = Loans.Where(item => item.LoanDate >=  filterDateStart);
-                }
-                if(filterDateEnd.HasValue)
-                {
-                    Loans = Loans.Where(item => item.LoanDate <= filterDateEnd);
-                }
-            }
+            Loans = _loanService.Filter(Loans, filterDateStart, filterDateEnd, filterString);
 
-            if (filterString == "DueDate")
-            {
-                if (filterDateStart.HasValue)
-                {
-                    Loans = Loans.Where(item => item.DueDate >= filterDateStart);
-                }
-                if (filterDateEnd.HasValue)
-                {
-                    Loans = Loans.Where(item => item.DueDate <= filterDateEnd);
-                }
-            }
+            Loans = _loanService.Sort(Loans, sortString);
 
-            if (filterString == "ReturnDate")
-            {
-                if (filterDateStart.HasValue)
-                {
-                    Loans = Loans.Where(item => item.ReturnDate >= filterDateStart);
-                }
-                if (filterDateEnd.HasValue)
-                {
-                    Loans = Loans.Where(item => item.ReturnDate <= filterDateEnd);
-                }
-            }
-
-
-            switch (sortString)
-            {
-                case "TitleDesc":
-                    Loans = Loans.OrderByDescending(item => item.Book.Work.Title).ToList(); break;
-                case "LoanDateAsc":
-                    Loans = Loans.OrderBy(item => item.LoanDate).ToList(); break;
-                case "LoanDateDesc":
-                    Loans = Loans.OrderByDescending(item => item.LoanDate).ToList(); break;
-                case "DueDateAsc":
-                    Loans = Loans.OrderBy(item => item.DueDate).ToList(); break;
-                case "DueDateDesc":
-                    Loans = Loans.OrderByDescending(item => item.DueDate).ToList(); break;
-                case "ReturnDateAsc":
-                    Loans = Loans.OrderBy(item => item.ReturnDate).ToList(); break;
-                case "ReturnDateDesc":
-                    Loans = Loans.OrderByDescending(item => item.ReturnDate).ToList(); break;
-                case "FineAsc":
-                    Loans = Loans.OrderBy(item => item.Fine).ToList(); break;
-                case "FineDesc":
-                    Loans = Loans.OrderByDescending(item => item.Fine).ToList(); break;
-                default:
-                    Loans = Loans.OrderBy(item => item.Book.Work.Title).ToList(); break;
-            }
-
-            int loanSize = Loans.Count();
+            var loanSize = Loans.Count();
 
             Loans = PaginatedList<LoanResponseModel>.Create(Loans, pageNumber, pageSize);
 

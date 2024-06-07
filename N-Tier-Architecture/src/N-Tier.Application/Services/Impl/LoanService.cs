@@ -6,6 +6,7 @@ using N_Tier.Core.Entities;
 using N_Tier.Core.Entities.Identity;
 using N_Tier.DataAccess.Repositories;
 using N_Tier.DataAccess.Repositories.Impl;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,6 +111,99 @@ namespace N_Tier.Application.Services.Impl
             }
 
             return true;
+        }
+
+        public IEnumerable<LoanResponseModel> Search(IEnumerable<LoanResponseModel> loans, string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                loans = loans.Where(item => item.Book.Work.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Customer.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Customer.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Librarian.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Librarian.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                            .ToList();
+            }
+
+            return loans;
+        }
+
+        public IEnumerable<LoanResponseModel> Filter(IEnumerable<LoanResponseModel> loans, DateTime? filterDateStart, DateTime? filterDateEnd, string filterString)
+        {
+            if (filterString == "LoanDate")
+            {
+                if (filterDateStart.HasValue)
+                {
+                    loans = loans.Where(item => item.LoanDate >= filterDateStart);
+                }
+                if (filterDateEnd.HasValue)
+                {
+                    loans = loans.Where(item => item.LoanDate <= filterDateEnd);
+                }
+            }
+
+            if (filterString == "DueDate")
+            {
+                if (filterDateStart.HasValue)
+                {
+                    loans = loans.Where(item => item.DueDate >= filterDateStart);
+                }
+                if (filterDateEnd.HasValue)
+                {
+                    loans = loans.Where(item => item.DueDate <= filterDateEnd);
+                }
+            }
+
+            if (filterString == "ReturnDate")
+            {
+                if (filterDateStart.HasValue)
+                {
+                    loans = loans.Where(item => item.ReturnDate >= filterDateStart);
+                }
+                if (filterDateEnd.HasValue)
+                {
+                    loans = loans.Where(item => item.ReturnDate <= filterDateEnd);
+                }
+            }
+
+            return loans;
+        }
+
+        public IEnumerable<LoanResponseModel> Sort(IEnumerable<LoanResponseModel> loans, string sortString)
+        {
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    loans = loans.OrderByDescending(item => item.Book.Work.Title).ToList(); break;
+                case "LoanDateAsc":
+                    loans = loans.OrderBy(item => item.LoanDate).ToList(); break;
+                case "LoanDateDesc":
+                    loans = loans.OrderByDescending(item => item.LoanDate).ToList(); break;
+                case "DueDateAsc":
+                    loans = loans.OrderBy(item => item.DueDate).ToList(); break;
+                case "DueDateDesc":
+                    loans = loans.OrderByDescending(item => item.DueDate).ToList(); break;
+                case "ReturnDateAsc":
+                    loans = loans.OrderBy(item => item.ReturnDate).ToList(); break;
+                case "ReturnDateDesc":
+                    loans = loans.OrderByDescending(item => item.ReturnDate).ToList(); break;
+                case "FineAsc":
+                    loans = loans.OrderBy(item => item.Fine).ToList(); break;
+                case "FineDesc":
+                    loans = loans.OrderByDescending(item => item.Fine).ToList(); break;
+                case "CustomerAsc":
+                    loans = loans.OrderBy(item => item.Customer.Email).ToList(); break;
+                case "CustomerDesc":
+                    loans = loans.OrderByDescending(item => item.Customer.Email).ToList(); break;
+                case "LibrarianAsc":
+                    loans = loans.OrderBy(item => item.Librarian.Email).ToList(); break;
+                case "LibrarianDesc":
+                    loans = loans.OrderByDescending(item => item.Librarian.Email).ToList(); break;
+                default:
+                    loans = loans.OrderBy(item => item.Book.Work.Title).ToList(); break;
+            }
+
+            return loans;
         }
     }
 }

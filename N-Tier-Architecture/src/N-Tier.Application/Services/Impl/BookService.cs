@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace N_Tier.Application.Services.Impl
 {
@@ -101,6 +102,59 @@ namespace N_Tier.Application.Services.Impl
             await _bookRepository.DeleteAsync(book);
 
             return true;
+        }
+
+        public IEnumerable<BookResponseModel> Search(IEnumerable<BookResponseModel> books, string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(item => item.Status.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Availability.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Work.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                            .ToList();
+            }
+
+            return books;
+        }
+
+        public IEnumerable<BookResponseModel> Filter(IEnumerable<BookResponseModel> books, string filterString, DateOnly? filterDateStart, DateOnly? filterDateEnd)
+        {
+            if (filterString != "none")
+            {
+                books = books.Where(item => item.Status.ToString() == filterString);
+            }
+
+            if (filterDateStart.HasValue)
+            {
+                books = books.Where(item => item.ReleaseDate >= filterDateStart);
+            }
+            if (filterDateEnd.HasValue)
+            {
+                books = books.Where(item => item.ReleaseDate <= filterDateEnd);
+            }
+
+            return books;
+        }
+
+        public IEnumerable<BookResponseModel> Sort(IEnumerable<BookResponseModel> books, string sortString)
+        {
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    books = books.OrderByDescending(item => item.Work.Title).ToList(); break;
+                case "StatusAsc":
+                    books = books.OrderBy(item => item.Status).ToList(); break;
+                case "StatusDesc":
+                    books = books.OrderByDescending(item => item.Status).ToList(); break;
+                case "ReleaseDateAsc":
+                    books = books.OrderBy(item => item.ReleaseDate).ToList(); break;
+                case "ReleaseDateDesc":
+                    books = books.OrderByDescending(item => item.ReleaseDate).ToList(); break;
+                default:
+                    books = books.OrderBy(item => item.Work.Title).ToList(); break;
+            }
+
+            return books;
         }
     }
 }

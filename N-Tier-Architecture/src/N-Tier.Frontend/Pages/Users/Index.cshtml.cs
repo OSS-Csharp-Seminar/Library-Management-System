@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using N_Tier.Application.Models;
+using N_Tier.Application.Services;
+using N_Tier.Application.Services.Impl;
 using N_Tier.Core.Entities.Identity;
 
 namespace N_Tier.Frontend.Pages.Users
@@ -12,10 +14,11 @@ namespace N_Tier.Frontend.Pages.Users
     public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public IndexModel(UserManager<ApplicationUser> userManager)
+        private readonly IUserService _userService;
+        public IndexModel(UserManager<ApplicationUser> userManager, IUserService userService)
         {
             _userManager = userManager;
+            _userService = userService;
         }
 
         public int pageIndex { get; set; } = 1;
@@ -35,30 +38,11 @@ namespace N_Tier.Frontend.Pages.Users
             Users = await _userManager.Users
                 .ToListAsync();
 
-            if(!string.IsNullOrEmpty(searchString))
-            {
-                Users = Users.Where(user => (user.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
-                                            user.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)   ||
-                                            user.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)));
-            }
+            Users = _userService.Search(Users, searchString);
 
-            switch (sortString)
-            {
-                case "FirstNameDesc":
-                    Users = Users.OrderByDescending(item => item.FirstName).ToList(); break;
-                case "LastNameAsc":
-                    Users = Users.OrderBy(item => item.LastName).ToList(); break;
-                case "LastNameDesc":
-                    Users = Users.OrderByDescending(item => item.LastName); break;
-                case "EmailAsc":
-                    Users = Users.OrderBy(item => item.Email).ToList(); break;
-                case "EmailDesc":
-                    Users = Users.OrderByDescending((item) => item.Email).ToList(); break;
-                default:
-                    Users = Users.OrderBy((item) => item.FirstName).ToList(); break; // Default sorting by FirstNameAsc
-            }
+            Users = _userService.Sort(Users, sortString);
 
-            int usersSize = Users.Count();
+            var usersSize = Users.Count();
 
             Users = PaginatedList<ApplicationUser>.Create(Users, pageNumber, pageSize);
 

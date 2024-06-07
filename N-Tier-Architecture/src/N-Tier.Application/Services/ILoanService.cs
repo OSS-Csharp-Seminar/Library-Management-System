@@ -26,5 +26,11 @@ namespace N_Tier.Application.Services
         Task<UpdateLoanResponseModel> UpdateReturnDateAsync(Guid id);
 
         Task<bool> UpdateFinesAsync(IEnumerable<LoanResponseModel> loanResponseModels);
+
+        IEnumerable<LoanResponseModel> Search(IEnumerable<LoanResponseModel> loans, string searchString);
+
+        IEnumerable<LoanResponseModel> Filter(IEnumerable<LoanResponseModel> loans, DateTime? filterDateStart, DateTime? filterDateEnd, string filterString);
+
+        IEnumerable<LoanResponseModel> Sort(IEnumerable<LoanResponseModel> loans, string sortString);
     }
 }

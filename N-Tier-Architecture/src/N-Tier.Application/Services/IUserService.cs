@@ -15,4 +15,8 @@ public interface IUserService
     Task<LoginResponseModel> LoginAsync(LoginUserModel loginUserModel);
 
     Task<ApplicationUser> GetRandomLibrarianAsync();
+
+    IEnumerable<ApplicationUser> Search(IEnumerable<ApplicationUser> Users, string searchString);
+
+    IEnumerable<ApplicationUser> Sort(IEnumerable<ApplicationUser> Users, string sortString);
 }

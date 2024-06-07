@@ -76,5 +76,52 @@ namespace N_Tier.Application.Services.Impl
             await _authorRepository.DeleteAsync(author);
             return true;
         }
+
+        public IEnumerable<AuthorResponseModel> Search(IEnumerable<AuthorResponseModel> authors, string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                authors = authors.Where(item => item.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                        || item.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                        || item.About.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return authors;
+        }
+
+        public IEnumerable<AuthorResponseModel> FilterByDate(IEnumerable<AuthorResponseModel> authors, DateOnly? filterDateStart, DateOnly? filterDateEnd)
+        {
+            if (filterDateStart.HasValue)
+            {
+                authors = authors.Where(item => item.DateOfBirth >= filterDateStart);
+            }
+            if (filterDateEnd.HasValue)
+            {
+                authors = authors.Where(item => item.DateOfBirth <= filterDateEnd);
+            }
+
+            return authors;    
+        }
+
+        public IEnumerable<AuthorResponseModel> Sort(IEnumerable<AuthorResponseModel> authors, string sortString)
+        {
+            switch (sortString)
+            {
+                case "FirstNameDesc":
+                    authors = authors.OrderByDescending(item => item.FirstName).ToList(); break;
+                case "LastNameAsc":
+                    authors = authors.OrderBy(item => item.LastName).ToList(); break;
+                case "LastNameDesc":
+                    authors = authors.OrderByDescending(item => item.LastName).ToList(); break;
+                case "DateOfBirthAsc":
+                    authors = authors.OrderBy(item => item.DateOfBirth).ToList(); break;
+                case "DateOfBirthDesc":
+                    authors = authors.OrderByDescending(item => item.DateOfBirth).ToList(); break;
+                default:
+                    authors = authors.OrderBy(item => item.FirstName).ToList(); break;
+            }
+
+            return authors;
+        }
     }
 }

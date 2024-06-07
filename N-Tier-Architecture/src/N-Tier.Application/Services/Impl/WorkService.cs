@@ -74,5 +74,54 @@ namespace N_Tier.Application.Services.Impl
 
             return true;
         }
+
+        public IEnumerable<WorkResponseModel> Search(IEnumerable<WorkResponseModel> works, string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                works = works.Where(item => item.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Genre.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Author.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                            || item.Author.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                            .ToList();
+            }
+
+            return works;
+        }
+
+        public IEnumerable<WorkResponseModel> Filter(IEnumerable<WorkResponseModel> works, string filterString)
+        {
+            if (filterString != "none")
+            {
+                works = works.Where(item => item.Genre.ToString() == filterString).ToList();
+            }
+
+            return works;
+        }
+
+        public IEnumerable<WorkResponseModel> Sort(IEnumerable<WorkResponseModel> works, string sortString)
+        {
+            switch (sortString)
+            {
+                case "TitleDesc":
+                    works = works.OrderByDescending(item => item.Title).ToList(); break;
+                case "GenreAsc":
+                    works = works.OrderBy(item => item.Genre).ToList(); break;
+                case "GenreDesc":
+                    works = works.OrderByDescending(item => item.Genre).ToList(); break;
+                case "FirstNameAsc":
+                    works = works.OrderBy(item => item.Author.FirstName).ToList(); break;
+                case "FirstNameDesc":
+                    works = works.OrderByDescending(item => item.Author.FirstName).ToList(); break;
+                case "LastNameAsc":
+                    works = works.OrderBy(item => item.Author.LastName).ToList(); break;
+                case "LastNameDesc":
+                    works = works.OrderByDescending(item => item.Author.LastName).ToList(); break;
+                default:
+                    works = works.OrderBy(item => item.Title).ToList(); break;
+            }
+
+            return works;
+        }
     }
 }

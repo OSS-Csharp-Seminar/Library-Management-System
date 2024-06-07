@@ -18,5 +18,11 @@ namespace N_Tier.Application.Services
         Task<UpdateWorkResponseModel> UpdateAsync(Guid id, WorkResponseModel workResponseModel);
 
         Task<bool> DeleteAsync(Guid id);
+
+        IEnumerable<WorkResponseModel> Search(IEnumerable<WorkResponseModel> works, string searchString);
+
+        IEnumerable<WorkResponseModel> Filter(IEnumerable<WorkResponseModel> works, string filterString);
+
+        IEnumerable<WorkResponseModel> Sort(IEnumerable<WorkResponseModel> works, string sortString);
     }
 }

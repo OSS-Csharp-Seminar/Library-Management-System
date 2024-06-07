@@ -156,13 +156,13 @@
                     @if (User.IsInRole("Administrator"))
                     {
                         <td>
-                            @Html.DisplayFor(modelItem => item.Customer.FirstName)
+                            @Html.DisplayFor(modelItem => item.Customer.Email)
                         </td>
                     }
                     @if (User.IsInRole("Administrator"))
                     {
                         <td>
-                            @Html.DisplayFor(modelItem => item.Librarian.FirstName)
+                            @Html.DisplayFor(modelItem => item.Librarian.Email)
                         </td>
                     }
                     @if (User.IsInRole("Customer"))

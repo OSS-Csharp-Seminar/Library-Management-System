@@ -37,46 +37,13 @@ namespace N_Tier.Frontend.Pages.Books
 
             Books = await _bookService.GetAllAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                Books = Books.Where(item => item.Status.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Availability.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Work.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                                            .ToList();
-            }
+            Books = _bookService.Search(Books, searchString);
 
-            if(filterString != "none")
-            {
-                Books = Books.Where(item => item.Status.ToString() == filterString);
-            }
+            Books = _bookService.Filter(Books, filterString, filterDateStart, filterDateEnd);
 
-            if (filterDateStart.HasValue)
-            {
-                Books = Books.Where(item => item.ReleaseDate >= filterDateStart);
-            }
-            if (filterDateEnd.HasValue)
-            {
-                Books = Books.Where(item => item.ReleaseDate <= filterDateEnd);
-            }
-            
+            Books = _bookService.Sort(Books, sortString);
 
-            switch (sortString)
-            {
-                case "TitleDesc":
-                    Books = Books.OrderByDescending(item => item.Work.Title).ToList(); break;
-                case "StatusAsc":
-                    Books = Books.OrderBy(item => item.Status).ToList(); break;
-                case "StatusDesc":
-                    Books = Books.OrderByDescending(item => item.Status).ToList(); break;
-                case "ReleaseDateAsc":
-                    Books = Books.OrderBy(item => item.ReleaseDate).ToList(); break;
-                case "ReleaseDateDesc":
-                    Books = Books.OrderByDescending(item => item.ReleaseDate).ToList(); break;
-                default:
-                    Books = Books.OrderBy(item => item.Work.Title).ToList(); break;
-            }
-
-            int booksSize = Books.Count();
+            var booksSize = Books.Count();
 
             Books = PaginatedList<BookResponseModel>.Create(Books, pageNumber, pageSize);
 

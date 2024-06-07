@@ -34,43 +34,15 @@ namespace N_Tier.Frontend.Pages.Works
 
             pageNumber = pageNumber == 0 ? 1 : pageNumber;
 
-            Works = await _workService.GetAllAsync();   
+            Works = await _workService.GetAllAsync();
 
-            if(!string.IsNullOrEmpty(searchString)) 
-            {
-                Works = Works.Where(item =>  item.Title.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Genre.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Author.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                            || item.Author.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                                            .ToList();
-            }
+            Works = _workService.Search(Works, searchString);
 
-            if(filterString != "none")
-            {
-                Works = Works.Where(item => item.Genre.ToString() == filterString).ToList();
-            }
+            Works = _workService.Filter(Works, filterString);
 
-            switch (sortString)
-            {
-                case "TitleDesc":
-                    Works = Works.OrderByDescending(item => item.Title).ToList(); break;
-                case "GenreAsc":
-                    Works = Works.OrderBy(item => item.Genre).ToList(); break;
-                case "GenreDesc":
-                    Works = Works.OrderByDescending(item => item.Genre).ToList(); break;
-                case "FirstNameAsc":
-                    Works = Works.OrderBy(item => item.Author.FirstName).ToList(); break;
-                case "FirstNameDesc":
-                    Works = Works.OrderByDescending(item => item.Author.FirstName).ToList(); break;
-                case "LastNameAsc":
-                    Works = Works.OrderBy(item => item.Author.LastName).ToList(); break;
-                case "LastNameDesc":
-                    Works = Works.OrderByDescending(item => item.Author.LastName).ToList(); break;
-                default:
-                    Works = Works.OrderBy(item => item.Title).ToList(); break;
-            }
+            Works = _workService.Sort(Works, sortString);
 
-            int worksSize = Works.Count();
+            var worksSize = Works.Count();
 
             Works = PaginatedList<WorkResponseModel>.Create(Works, pageNumber, pageSize);
 

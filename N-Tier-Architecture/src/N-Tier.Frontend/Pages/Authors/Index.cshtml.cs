@@ -32,39 +32,14 @@ namespace N_Tier.Frontend.Pages.Authors
 
             Authors = await _authorService.GetAllAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                Authors = Authors.Where(item => item.FirstName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                        || item.LastName.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                                        || item.About.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
 
-            if (filterDateStart.HasValue)
-            {
-                Authors = Authors.Where(item => item.DateOfBirth >= filterDateStart);
-            }
-            if(filterDateEnd.HasValue)
-            {
-                Authors = Authors.Where(item => item.DateOfBirth <= filterDateEnd);
-            }
+            Authors = _authorService.Search(Authors, searchString);
 
-            switch (sortString)
-            {
-                case "FirstNameDesc":
-                    Authors = Authors.OrderByDescending(item => item.FirstName).ToList(); break;
-                case "LastNameAsc":
-                    Authors = Authors.OrderBy(item => item.LastName).ToList(); break;
-                case "LastNameDesc":
-                    Authors = Authors.OrderByDescending(item => item.LastName).ToList(); break;
-                case "DateOfBirthAsc":
-                    Authors = Authors.OrderBy(item => item.DateOfBirth).ToList(); break;
-                case "DateOfBirthDesc":
-                    Authors = Authors.OrderByDescending(item => item.DateOfBirth).ToList(); break;
-                default:
-                    Authors = Authors.OrderBy(item => item.FirstName).ToList(); break;
-            }
+            Authors = _authorService.FilterByDate(Authors, filterDateStart, filterDateEnd);
 
-            int authorsSize = Authors.Count();
+            Authors = _authorService.Sort(Authors, sortString);
+
+            var authorsSize = Authors.Count();
 
             Authors = PaginatedList<AuthorResponseModel>.Create(Authors, pageNumber, pageSize);
 

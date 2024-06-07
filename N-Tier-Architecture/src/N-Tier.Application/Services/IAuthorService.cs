@@ -21,5 +21,11 @@ namespace N_Tier.Application.Services
         Task<UpdateAuthorReponseModel> UpdateAsync(Guid id, AuthorResponseModel updateAuthorModel);
 
         Task<bool> DeleteAsync(Guid id);
+
+        IEnumerable<AuthorResponseModel> Search(IEnumerable<AuthorResponseModel> authors, string searchString);
+
+        IEnumerable<AuthorResponseModel> FilterByDate(IEnumerable<AuthorResponseModel> authors, DateOnly? filterDateStart, DateOnly? filterDateEnd);
+
+        IEnumerable<AuthorResponseModel> Sort(IEnumerable<AuthorResponseModel> authors, string sortString);
     }
 }

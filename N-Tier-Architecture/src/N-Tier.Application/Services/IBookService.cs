@@ -22,5 +22,11 @@ namespace N_Tier.Application.Services
         Task<bool> UpdateAvailability(Guid id, bool available);
 
         Task<bool> DeleteAsync(Guid id);
+
+        IEnumerable<BookResponseModel> Search(IEnumerable<BookResponseModel> books, string searchString);
+
+        IEnumerable<BookResponseModel> Filter(IEnumerable<BookResponseModel> books, string filterString, DateOnly? filterDateStart, DateOnly? filterDateEnd);
+
+        IEnumerable<BookResponseModel> Sort(IEnumerable<BookResponseModel> books, string sortString);
     }
 }
